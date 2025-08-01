@@ -1,0 +1,13 @@
+<form method="post" class="mt-4 p-4 shadow-sm rounded" style="background-color: #f8f9fa;">
+    {% csrf_token %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <h2 class="text-primary mb-4 text-center">Doğrulama Kodu Al</h2>
+    
+    <div class="form-group mb-3">
+        <label for="email" class="form-label text-dark">E-posta Adresiniz:</label>
+        <input type="email" name="email" id="email" class="form-control" placeholder="E-posta adresinizi girin" required style="border-radius: 10px;">
+    </div>
+    
+    <button type="submit" class="btn btn-primary btn-block" style="border-radius: 10px; font-size: 18px;">Doğrulama Kodunu Al</button>
+</form>

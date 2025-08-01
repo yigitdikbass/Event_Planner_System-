@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Etkinlik Düzenle</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Etkinlik Düzenle</h1>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="ad">Etkinlik Adı</label>
+                        <input type="text" class="form-control" id="ad" name="ad" value="{{ etkinlik.ad }}" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="tarih">Tarih</label>
+                        <input type="date" class="form-control" id="tarih" name="tarih" value="{{ etkinlik.tarih }}" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="saat">Saat</label>
+                        <input type="time" class="form-control" id="saat" name="saat" value="{{ etkinlik.saat }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                    <a href="{% url 'admin_profili' %}" class="btn btn-secondary">Geri Dön</a>
+                </form>
+            </div>
+        </div>
+
+        <!-- Katılımcılar Listesi -->
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h2 class="h5 mb-0">Katılımcılar</h2>
+            </div>
+            <div class="card-body">
+                {% if katilimcilar %}
+                    <ul class="list-group">
+                        {% for katilimci in katilimcilar %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ katilimci.kullanici.kullanici_adi }}
+                                <span>{{ katilimci.kullanici.email }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">Bu etkinliğe katılan kimse yok.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

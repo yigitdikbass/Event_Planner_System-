@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Şifre Sıfırla</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-primary">Şifre Sıfırla</h1>
+
+        <!-- Mesajları Göster -->
+        {% if messages %}
+            <div class="alert alert-info">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="yeni_sifre">Yeni Şifre:</label>
+                <input type="password" class="form-control" id="yeni_sifre" name="yeni_sifre" placeholder="Yeni şifreyi girin" required>
+            </div>
+            <div class="form-group">
+                <label for="yeni_sifre_onay">Yeni Şifre Onay:</label>
+                <input type="password" class="form-control" id="yeni_sifre_onay" name="yeni_sifre_onay" placeholder="Yeni şifreyi tekrar girin" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Şifreyi Sıfırla</button>
+        </form>
+    </div>
+</body>
+</html>

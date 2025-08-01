@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yol Tarifi</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
+    <a href="{% url 'anasayfa' %}" class="btn btn-secondary">Anasayfa</a>
+
+    <style>
+        #map {
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yol Tarifi</h1>
+
+    <div>
+        <label for="startLocation">Başlangıç Konumu:</label>
+        <input type="text" id="startLocation" value="{{ user_konum }}" placeholder="Başlangıç konumunuzu girin" readonly>
+    </div>
+
+    <div>
+        <label for="endLocation">Bitiş Konumu:</label>
+        <input type="text" id="endLocation" value="{{ event_konum }}" readonly>
+    </div>
+
+    <button class="btn btn-primary" onclick="getRoute()">Yol Tarifi Al</button>
+
+    <div id="map"></div>
+
+    <script>
+        const map = L.map('map').setView([39.92077, 32.85411], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        let routingControl;
+
+        async function geocode(location) {
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`, {
+                headers: { 'User-Agent': 'YourAppName/1.0' }
+            });
+            const data = await response.json();
+            if (data && data.length > 0) {
+                return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+            } else {
+                throw new Error(`Konum bulunamadı: ${location}`);
+            }
+        }
+
+        async function getRoute() {
+            const startLocation = document.getElementById('startLocation').value;
+            const endLocation = document.getElementById('endLocation').value;
+
+            try {
+                const startCoords = await geocode(startLocation);
+                const endCoords = await geocode(endLocation);
+
+                if (routingControl) {
+                    map.removeControl(routingControl);
+                }
+
+                routingControl = L.Routing.control({
+                    waypoints: [
+                        L.latLng(startCoords.lat, startCoords.lon),
+                        L.latLng(endCoords.lat, endCoords.lon)
+                    ],
+                    routeWhileDragging: true
+                }).addTo(map);
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Etkinlik Onayla</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Etkinlik Onayla</h1>
+        <p>{{ etkinlik.ad }} etkinliğini onaylamak istediğinize emin misiniz?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Evet, onayla</button>
+            <a href="{% url 'admin_profili' %}" class="btn btn-secondary">Hayır, geri dön</a>
+        </form>
+    </div>
+</body>
+</html>

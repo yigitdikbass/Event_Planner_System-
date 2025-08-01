@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ana Sayfa</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #007bff;
+        }
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-title {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .card-text {
+            color: #6c757d;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">Etkinlik Platformu</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if request.session.kullanici_id %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'kullanici_profili' %}">Profilim</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}" class="text-danger">Çıkış Yap</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Giriş Yap</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'uye_ol' %}">Üye Ol</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Etkinlikler</h1>
+        <div class="row">
+            {% for event in events %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.ad }}</h5>
+                            <p class="card-text">
+                                <strong>Tarih:</strong> {{ event.tarih|date:"d M Y" }}<br>
+                                <strong>Saat:</strong> {{ event.saat|time:"H:i" }}
+                            </p>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#detayModal{{ event.id }}">Detaylar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Etkinlik Detayları Modalı -->
+                <div class="modal fade" id="detayModal{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="detayModalLabel{{ event.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detayModalLabel{{ event.id }}">{{ event.ad }} Detayları</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Ad:</strong> {{ event.ad }}</p>
+                                <p><strong>Açıklama:</strong> {{ event.aciklama }}</p>
+                                <p><strong>Tarih:</strong> {{ event.tarih|date:"d M Y" }}</p>
+                                <p><strong>Saat:</strong> {{ event.saat|time:"H:i" }}</p>
+                                <p><strong>Süre(dk):</strong> {{ event.sure }}</p>
+                                <p><strong>Konum:</strong> {{ event.konum }}</p>
+                                <p><strong>Kategori:</strong> {{ event.kategori }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                {% if request.session.kullanici_id %}
+                                    <a href="{% url 'etkinlige_katil' event.id %}" class="btn btn-success">Katıl</a>
+                                    <a href="{% url 'sohbet' event.id %}" class="btn btn-info">Sohbet</a>
+                                    <a href="{% url 'login' %}?next={% url 'yol_tarifi' event.id %}" class="btn btn-primary">Yol Tarifi</a>
+                                    {% else %}
+                                    <a href="{% url 'login' %}?next={% url 'etkinlige_katil' event.id %}" class="btn btn-success">Katıl</a>
+                                    <a href="{% url 'login' %}?next={% url 'sohbet' event.id %}" class="btn btn-info">Sohbet</a>
+                                    <a href="{% url 'login' %}?next={% url 'yol_tarifi' event.id %}" class="btn btn-primary">Yol Tarifi</a>
+                                {% endif %}
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-warning" role="alert">
+                        Etkinlik yok.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

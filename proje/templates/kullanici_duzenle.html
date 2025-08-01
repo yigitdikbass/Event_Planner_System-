@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kullanıcı Düzenle</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Kullanıcı Düzenle</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="kullanici_adi">Kullanıcı Adı</label>
+                <input type="text" class="form-control" id="kullanici_adi" name="kullanici_adi" value="{{ kullanici.kullanici_adi }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email">E-posta</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ kullanici.email }}" required>
+            </div>
+            <div class="form-group">
+                <label for="ad">Ad</label>
+                <input type="text" class="form-control" id="ad" name="ad" value="{{ kullanici.ad }}" required>
+            </div>
+            <div class="form-group">
+                <label for="soyad">Soyad</label>
+                <input type="text" class="form-control" id="soyad" name="soyad" value="{{ kullanici.soyad }}" required>
+            </div>
+            <div class="form-group">
+                <label for="konum">Konum</label>
+                <input type="text" class="form-control" id="konum" name="konum" value="{{ kullanici.konum }}">
+            </div>
+            <div class="form-group">
+                <label for="ilgi_alanlari">İlgi Alanları</label>
+                <input type="text" class="form-control" id="ilgi_alanlari" name="ilgi_alanlari" value="{{ kullanici.ilgi_alanlari }}">
+            </div>
+            <div class="form-group">
+                <label for="dogum_tarihi">Doğum Tarihi</label>
+                <input type="date" class="form-control" id="dogum_tarihi" name="dogum_tarihi" value="{{ kullanici.dogum_tarihi }}">
+            </div>
+            <div class="form-group">
+                <label for="cinsiyet">Cinsiyet</label>
+                <select class="form-control" id="cinsiyet" name="cinsiyet">
+                    <option value="Erkek" {% if kullanici.cinsiyet == 'Erkek' %}selected{% endif %}>Erkek</option>
+                    <option value="Kadın" {% if kullanici.cinsiyet == 'Kadın' %}selected{% endif %}>Kadın</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="telefon_no">Telefon Numarası</label>
+                <input type="text" class="form-control" id="telefon_no" name="telefon_no" value="{{ kullanici.telefon_no }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Güncelle</button>
+            <a href="{% url 'admin_profili' %}" class="btn btn-secondary">Geri Dön</a>
+        </form>
+
+        <h2 class="mt-4">Katıldığı Etkinlikler</h2>
+        <ul class="list-group">
+            {% for katilim in katildigi_etkinlikler %}
+                <li class="list-group-item">
+                    {{ katilim.etkinlik.ad }} - {{ katilim.etkinlik.tarih }} {{ katilim.etkinlik.saat }}
+                </li>
+            {% empty %}
+                <li class="list-group-item">Bu kullanıcı katılmadı.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

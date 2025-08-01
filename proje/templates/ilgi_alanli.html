@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>İlgi Alanlarına Göre Etkinlikler</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Etkinlik Platformu</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if request.session.kullanici_id %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'kullanici_profili' %}">Profilim</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}" class="text-danger">Çıkış Yap</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Giriş Yap</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'uye_ol' %}">Üye Ol</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="text-center">İlgi Alanlarınıza Göre Etkinlikler</h1>
+        <div class="row">
+            {% for event in etkinlik_listesi %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.ad }}</h5>
+                            <p class="card-text"><strong>Kategori:</strong> {{ event.kategori }}</p>
+                            <p class="card-text"><strong>Uyumluluk Oranı:</strong> {{ event.uyumluluk_orani|floatformat:2 }}%</p>
+                            <p class="card-text">Tarih: {{ event.tarih }}</p>
+                            <p class="card-text">Saat: {{ event.saat }}</p>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#detayModal{{ event.id }}">Detaylar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Etkinlik Detayları Modalı -->
+                <div class="modal fade" id="detayModal{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="detayModalLabel{{ event.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detayModalLabel{{ event.id }}">{{ event.ad }} Detayları</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Ad:</strong> {{ event.ad }}</p>
+                                <p><strong>Açıklama:</strong> {{ event.aciklama }}</p>
+                                <p><strong>Tarih:</strong> {{ event.tarih }}</p>
+                                <p><strong>Saat:</strong> {{ event.saat }}</p>
+                                <p><strong>Süre (dk):</strong> {{ event.sure }}</p>
+                                <p><strong>Konum:</strong> {{ event.konum }}</p>
+                                <p><strong>Kategori:</strong> {{ event.kategori }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                {% if request.session.kullanici_id %}
+                                    <a href="{% url 'etkinlige_katil' event.id %}" class="btn btn-info">Katıl</a>
+                                    <a href="{% url 'sohbet' event.id %}" class="btn btn-info">Sohbet</a>
+                                {% else %}
+                                    <a href="{% url 'login' %}?next={% url 'etkinlige_katil' event.id %}" class="btn btn-info">Katıl</a>
+                                    <a href="{% url 'login' %}?next={% url 'sohbet' event.id %}" class="btn btn-info">Sohbet</a>
+                                {% endif %}
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-warning" role="alert">
+                        İlgi alanlarınıza uygun etkinlik bulunamadı.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

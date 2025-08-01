@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Bilgilerini Güncelle</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 30px;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #343a40;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container mx-auto col-md-6">
+            <h1 class="form-header">Kullanıcı Bilgilerini Güncelle</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="email">E-posta Adresiniz:</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ email }}" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="ad">Ad:</label>
+                    <input type="text" class="form-control" id="ad" name="ad" value="{{ ad }}" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="soyad">Soyad:</label>
+                    <input type="text" class="form-control" id="soyad" name="soyad" value="{{ soyad }}" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="konum">Konum:</label>
+                    <input type="text" class="form-control" id="konum" name="konum" value="{{ konum }}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="ilgi_alanlari">İlgi Alanları:</label>
+                    <textarea class="form-control" id="ilgi_alanlari" name="ilgi_alanlari" rows="3">{{ ilgi_alanlari }}</textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="dogum_tarihi">Doğum Tarihi:</label>
+                    <input type="date" class="form-control" id="dogum_tarihi" name="dogum_tarihi" value="{{ dogum_tarihi }}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="cinsiyet">Cinsiyet:</label>
+                    <select class="form-control" id="cinsiyet" name="cinsiyet">
+                        <option value="">Seçiniz</option>
+                        <option value="Erkek" {% if cinsiyet == "Erkek" %}selected{% endif %}>Erkek</option>
+                        <option value="Kadın" {% if cinsiyet == "Kadın" %}selected{% endif %}>Kadın</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="telefon_no">Telefon Numarası:</label>
+                    <input type="text" class="form-control" id="telefon_no" name="telefon_no" value="{{ telefon_no }}">
+                </div>
+                <div class="form-group mb-4">
+                    <label for="profil_fotografi">Profil Fotoğrafı:</label>
+                    <input type="file" class="form-control-file" id="profil_fotografi" name="profil_fotografi">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Bilgileri Güncelle</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

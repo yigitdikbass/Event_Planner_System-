@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlik Oluştur</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 30px;
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #343a40;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+    <div class="alert alert-warning mt-3">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="form-container mx-auto col-md-6">
+            <h1 class="form-header">Etkinlik Oluştur</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="ad">Etkinlik Adı</label>
+                    <input type="text" class="form-control" id="ad" name="ad" placeholder="Etkinlik adını girin" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="aciklama">Açıklama</label>
+                    <textarea class="form-control" id="aciklama" name="aciklama" rows="3" placeholder="Etkinlik açıklamasını yazın" required></textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="tarih">Tarih</label>
+                    <input type="date" class="form-control" id="tarih" name="tarih" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="saat">Saat</label>
+                    <input type="time" class="form-control" id="saat" name="saat" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="sure">Süre (Dakika Cinsinden)</label>
+                    <input type="number" class="form-control" id="sure" name="sure" placeholder="Süreyi dakika olarak girin" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="konum">Konum</label>
+                    <input type="text" class="form-control" id="konum" name="konum" placeholder="Etkinlik konumunu girin" required>
+                </div>
+                <div class="form-group mb-4">
+                    <label for="kategori">Kategori</label>
+                    <input type="text" class="form-control" id="kategori" name="kategori" placeholder="Etkinlik kategorisini girin" required>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Oluştur</button>
+                    <a href="{% url 'kullanici_profili' %}" class="btn btn-secondary">Geri Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üye Ol</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>Üye Ol</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 text-center">
+                            <a href="{% url 'anasayfa' %}" class="btn btn-secondary">Geri Dön</a>
+                        </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-info">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                                <label for="kullanici_adi">Kullanıcı Adı</label>
+                                <input type="text" class="form-control" name="kullanici_adi" id="kullanici_adi" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="sifre">Şifre</label>
+                                <input type="password" class="form-control" name="sifre" id="sifre" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="adi">Ad</label>
+                                <input type="text" class="form-control" name="adi" id="adi" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="soyadi">Soyad</label>
+                                <input type="text" class="form-control" name="soyadi" id="soyadi" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="konum">Konum</label>
+                                <input type="text" class="form-control" name="konum" id="konum">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="ilgi_alanlari">İlgi Alanları</label>
+                                <textarea class="form-control" name="ilgi_alanlari" id="ilgi_alanlari" rows="3"></textarea>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="dogum_tarihi">Doğum Tarihi</label>
+                                <input type="date" class="form-control" name="dogum_tarihi" id="dogum_tarihi">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="cinsiyet">Cinsiyet</label>
+                                <select class="form-control" name="cinsiyet" id="cinsiyet">
+                                    <option value="">Seçiniz</option>
+                                    <option value="Erkek">Erkek</option>
+                                    <option value="Kadın">Kadın</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="telefon_no">Telefon Numarası</label>
+                                <input type="text" class="form-control" name="telefon_no" id="telefon_no">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Kayıt Ol</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

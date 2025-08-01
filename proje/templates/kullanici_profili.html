@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Profili</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    {% if messages %}
+    <div class="alert alert-warning mt-3">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #fff;
+            padding: 20px;
+        }
+        .ml-3 {
+            margin-left: 20px; /* Resim ile metin arasındaki mesafeyi düzenler */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="profile-header">
+            <h1 class="text-primary">Kullanıcı Profili</h1>
+            <div>
+                <a href="{% url 'ilgi_alanli' %}" class="btn btn-secondary">Anasayfa</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger">Çıkış Yap</a>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <div class="d-flex align-items-center mb-3">
+                {% if profil_fotografi_url %}
+                <img src="{{ profil_fotografi_url }}" alt="Profil Resmi" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                {% else %}
+                <img src="{% static 'default_profile.png' %}" alt="Varsayılan Profil Resmi">
+                {% endif %}
+                <div class="ml-3">
+                    <h4 class="text-dark">{{ kullanici_adi }}</h4>
+                    <p class="text-muted">{{ email }}</p>
+                    <p class="text-success">Toplam Puan: <strong>{{ toplam_puan }}</strong></p>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Ad:</strong> {{ ad }}</p>
+                    <p><strong>Soyad:</strong> {{ soyad }}</p>
+                    <p><strong>Konum:</strong> {{ konum }}</p>
+                    <p><strong>İlgi Alanları:</strong> {{ ilgi_alanlari }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Doğum Tarihi:</strong> {{ dogum_tarihi }}</p>
+                    <p><strong>Cinsiyet:</strong> {{ cinsiyet }}</p>
+                    <p><strong>Telefon Numarası:</strong> {{ telefon_no }}</p>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a href="{% url 'kullanici_guncelle' %}" class="btn btn-primary">Profili Güncelle</a>
+                <a href="{% url 'sifre_sifirla' kullanici_id=kullanici_id %}" class="btn btn-info">Şifre Sıfırla</a>
+                <a href="{% url 'kullanici_etkinlik_olustur' %}" class="btn btn-success">Etkinlik Oluştur</a>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Katılacağınız Etkinlikler</h2>
+        <ul class="list-group">
+            {% for etkinlik in katildigi_etkinlikler %}
+                <li class="list-group-item">
+                    <strong>{{ etkinlik.1 }}</strong> - {{ etkinlik.2 }} {{ etkinlik.3 }}
+                </li>
+            {% empty %}
+                <li class="list-group-item">Katılacağınız etkinlik yok.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

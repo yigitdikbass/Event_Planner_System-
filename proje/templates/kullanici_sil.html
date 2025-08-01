@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kullanıcı Sil</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Kullanıcı Sil</h1>
+        <p>{{ kullanici.ad }} {{ kullanici.soyad }} kullanıcısını silmek istediğinize emin misiniz?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Evet, sil</button>
+            <a href="{% url 'admin_profili' %}" class="btn btn-secondary">Hayır, geri dön</a>
+        </form>
+    </div>
+</body>
+</html>

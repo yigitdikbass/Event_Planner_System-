@@ -1,0 +1,39 @@
+<form method="post" class="mt-4 p-4 shadow-sm rounded" style="background-color: #f8f9fa;">
+    {% csrf_token %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Başlık -->
+    <h2 class="text-primary mb-4 text-center">Doğrulama Kodu</h2>
+
+    <!-- Doğrulama Kodu Mesajı -->
+    {% if messages %}
+        <div id="verification-message" class="alert alert-success alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+                <strong>{{ message }}</strong>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
+    <!-- Doğrulama Kodu Girişi -->
+    <div class="form-group mb-3">
+        <label for="verification_code" class="form-label text-dark">Doğrulama Kodu:</label>
+        <input type="text" name="verification_code" id="verification_code" class="form-control" placeholder="Doğrulama kodunu girin" required style="border-radius: 10px;">
+    </div>
+
+    <!-- Doğrula Butonu -->
+    <button type="submit" class="btn btn-primary btn-block" style="border-radius: 10px; font-size: 18px;">Doğrula</button>
+</form>
+
+<script>
+    // Mesajın otomatik olarak görünmesi ve 10 saniye sonra kaybolması
+    document.addEventListener('DOMContentLoaded', function () {
+        const messageBox = document.getElementById('verification-message');
+        if (messageBox) {
+            messageBox.style.display = 'block'; // Mesajı göster
+            setTimeout(() => {
+                messageBox.style.display = 'none'; // 10 saniye sonra kaybol
+            }, 10000); // 10 saniye (10000 ms)
+        }
+    });
+</script>

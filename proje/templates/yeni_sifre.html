@@ -1,0 +1,8 @@
+<form method="post">
+    {% csrf_token %}
+    <label for="yeni_sifre">Yeni Şifre:</label>
+    <input type="password" name="yeni_sifre" id="yeni_sifre" required>
+    <label for="sifre_tekrar">Yeni Şifre (Tekrar):</label>
+    <input type="password" name="sifre_tekrar" id="sifre_tekrar" required>
+    <button type="submit">Şifreyi Güncelle</button>
+</form>
